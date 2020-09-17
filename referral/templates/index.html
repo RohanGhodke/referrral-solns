@@ -1,0 +1,17 @@
+{% extends 'base.html' %} {% load static %} 
+
+{% block title %} Index {% endblock%} 
+
+{% block content %}
+<h1>Index</h1>
+{% if user.is_authenticated %}
+<h2>welcome {{user.first_name}}</h2>
+{% else %}
+<h2>bye</h2>
+{% endif %}
+<a href={% url 'login' %}>Login</a><br>
+<a href={% url 'logout' %}>Logout</a><br>
+<a href={% url 'signup' %}>Signup</a><br>
+<a href={% url 'jobPost' %}>Job post</a><br>
+<a href={% url 'joblist' %}>Job list</a>
+{% endblock %}
