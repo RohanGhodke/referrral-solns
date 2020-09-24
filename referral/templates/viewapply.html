@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+ {% load static %} 
+
+{% block title %} View Applies {% endblock%} 
+
+{% block content %}
+
+<table class="table">
+    <thead class="thead-dark">
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Name</th>
+        <th scope="col">Designation</th>
+        <th scope="col">Yrs Of Exp</th>
+        <th scope="col">Company Name</th>
+        <th scope="col">Referal Code</th>
+        {% if user.is_superuser %}
+        <th scope="col">Send Mail</th>
+        {% endif %}
+      </tr>
+    </thead>
+    
+    <tbody>
+        {% for info in data %}
+      <tr>
+        <th scope="row">{{ forloop.counter }}</th>
+        <td>{{info.jobseeker.user.first_name}} {{info.jobseeker.user.last_name}}</td>
+        <td>{{ info.jobpost_applied.job_title }}</td>
+        <td>{{ info.jobpost_applied.experience_required }}</td>
+        <td>{{ info.jobpost_applied.employee.company }}</td>
+        <td>{{ info.jobpost_applied.employee.referral_id}}</td>
+        <td><a class="btn btn-outline-primary btn-block" type="button" onclick="document.getElementById('hiddenForm{{info.id}}').submit()">Send mail</a></th>
+            <form hidden action={% url 'sendmail' %} method="POST" id="hiddenForm{{info.id}}">{% csrf_token %}
+                <input name="hiddenName" value="{{info.id}}">
+              </form>
+      </tr>
+      {% endfor %}
+      
+    </tbody>
+  </table>
+
+{% endblock %}
